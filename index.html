@@ -2,44 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Auto redirect</title>
+<title>Form Redirect</title>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypuSbPNra-R9nsJ0q0y_TUHGYSOLfINWideLas0C0Yi4jcAx9UwZDL7mQx88XLaJdk/exec";
-/* ===== CONFIG ===== */
-const FORMS = [
-  { type: "A", url: "https://forms.gle/f5SfhpjNyU2hNLTa6" },
-  { type: "B", url: "https://forms.gle/Bggr2miD7K5LBFiM6" },
-  { type: "C", url: "https://forms.gle/GQDMDCCJjFoJNL937" },
-  { type: "D", url: "https://forms.gle/bQUzKVw4qmMAFjY68" },
-  { type: "E", url: "https://forms.gle/bpWjeaE1uHdKBWBd9" },
-  { type: "F", url: "https://forms.gle/y9tb4aF5cbknNLSSA" }
-];
-/* ================= */
-
-function redirect() {
-  let step = parseInt(localStorage.getItem("step") || "0");
-
-  if (step >= FORMS.length) {
-    document.body.innerHTML = "<h2>All forms completed</h2>";
-    return;
-  }
-
-  const form = FORMS[step];
-
-  // save next step
-  localStorage.setItem("step", step + 1);
-
-  // redirect (formType passed)
-  window.location.href =
-    form.url + "?formType=" + form.type;
+/* =========================
+   USER ID (same logic)
+========================= */
+let userId = localStorage.getItem("userId");
+if (!userId) {
+  userId = "U" + Math.random().toString(36).substr(2, 9);
+  localStorage.setItem("userId", userId);
 }
 
-window.onload = redirect;
+/* =========================
+   LAST FORM TYPE
+========================= */
+let lastType = localStorage.getItem("lastType") || "F";
+
+/* =========================
+   NEXT FORM (your switch)
+========================= */
+let chosenType;
+
+switch (lastType) {
+  case "A": chosenType = "B"; break;
+  case "B": chosenType = "C"; break;
+  case "C": chosenType = "D"; break;
+  case "D": chosenType = "E"; break;
+  case "E": chosenType = "F"; break;
+  default:  chosenType = "A";
+}
+
+/* =========================
+   FORM URLS (unchanged)
+========================= */
+const forms = {
+  A: "https://forms.gle/f5SfhpjNyU2hNLTa6",
+  B: "https://forms.gle/Bggr2miD7K5LBFiM6",
+  C: "https://forms.gle/GQDMDCCJjFoJNL937",
+  D: "https://forms.gle/bQUzKVw4qmMAFjY68",
+  E: "https://forms.gle/bpWjeaE1uHdKBWBd9",
+  F: "https://forms.gle/y9tb4aF5cbknNLSSA"
+};
+
+/* =========================
+   SAVE STATE (HTML version
+   of appendRow)
+========================= */
+localStorage.setItem("lastType", chosenType);
+
+/* =========================
+   REDIRECT
+========================= */
+window.onload = function () {
+  window.location.href =
+    forms[chosenType] + "?userId=" + userId;
+};
 </script>
 </head>
 
-<body>
-<h3>Redirecting…</h3>
+<body style="font-family:Arial; text-align:center; padding:50px;">
+  <p>Redirecting to form <strong id="t"></strong>…</p>
+  <script>
+    document.getElementById("t").innerText = chosenType;
+  </script>
 </body>
 </html>
