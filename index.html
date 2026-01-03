@@ -7,9 +7,6 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRKuFcBtLdX9wEp_jfwBJ5V6tmM5PDRU2E_jFT-bZoyxJwHzLqw7_uLPnhtam-WLCz/exec";
 
-//function Redirect() {
-  //const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-
   // --- Générer ou récupérer un ID utilisateur ---
   const email  = data["Adresse e-mail"] || data["Email"];
   let userId = e.parameter.userId || "Unknown";
@@ -80,8 +77,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRKuFcBtLdX9wEp_jfw
     "<p>Redirection en cours vers le formulaire " + chosenType + "...</p>" +
     "</body></html>"
   );
-// }
-//window.onload = Redirect();
+
 </script>
 
 </head>
