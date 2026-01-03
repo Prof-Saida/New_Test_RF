@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Accès formulaire</title>
+</head>
+<body style="text-align:center; margin-top:100px; font-family:Arial">
+
+<h2>Inscription</h2>
+<button onclick="go()">Accéder au formulaire</button>
+
+<p id="status"></p>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb8mCo9Qioze4kiZtIMLOLB23nVdL7v-UFJSO_ccZam__U0r22mWqU1E8dH4n7OgE4/exec";
+
+function go() {
+  let userId = localStorage.getItem("userId");
+  if (!userId) {
+    userId = "U" + Math.random().toString(36).substr(2,9);
+    localStorage.setItem("userId", userId);
+  }
+
+  document.getElementById("status").innerText = "Redirection en cours...";
+
+  fetch(`${SCRIPT_URL}?userId=${userId}`)
+    .then(r => r.json())
+    .then(data => {
+      window.location.href = data.redirectURL + "?userId=" + userId;
+    })
+    .catch(() => {
+      document.getElementById("status").innerText =
+        "Erreur de connexion au serveur.";
+    });
+}
+</script>
+
+</body>
+</html>
