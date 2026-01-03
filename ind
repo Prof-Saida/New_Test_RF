@@ -1,0 +1,50 @@
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFx5khZO-I4jCX1nLJDB6c1Xzb2Lkz5UmtVBElcOai0S1FMMugUXPTp6FWcR4Fusxe/exec";
+
+/* USER ID */
+let userId = localStorage.getItem("userId");
+if (!userId) {
+  userId = "U" + Math.random().toString(36).substr(2, 9);
+  localStorage.setItem("userId", userId);
+}
+
+/* LAST TYPE */
+let lastType = localStorage.getItem("lastType");
+
+/* NEXT FORM */
+let chosenType;
+switch (lastType) {
+  case "A": chosenType = "B"; break;
+  case "B": chosenType = "C"; break;
+  case "C": chosenType = "D"; break;
+  case "D": chosenType = "E"; break;
+  case "E": chosenType = "F"; break;
+  default:  chosenType = "A";
+}
+
+/* SAVE STATE */
+localStorage.setItem("lastType", chosenType);
+
+/* FORMS */
+const forms = {
+  A: "https://forms.gle/f5SfhpjNyU2hNLTa6",
+  B: "https://forms.gle/Bggr2miD7K5LBFiM6",
+  C: "https://forms.gle/GQDMDCCJjFoJNL937",
+  D: "https://forms.gle/bQUzKVw4qmMAFjY68",
+  E: "https://forms.gle/bpWjeaE1uHdKBWBd9",
+  F: "https://forms.gle/y9tb4aF5cbknNLSSA"
+};
+
+/* 🔥 RELIABLE LOGGING */
+const params = new URLSearchParams({
+  userId: userId,
+  formType: chosenType
+});
+
+navigator.sendBeacon(
+  SCRIPT_URL + "?" + params.toString()
+);
+
+/* REDIRECT */
+window.location.href = forms[chosenType] + "?userId=" + userId;
+</script>
