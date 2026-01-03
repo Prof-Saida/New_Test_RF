@@ -59,6 +59,15 @@ window.onload = function () {
   window.location.href =
     forms[chosenType] + "?userId=" + userId;
 };
+   /* =========================
+   LOG TO GOOGLE SHEET
+========================= */
+fetch(
+  SCRIPT_URL +
+  "?userId=" + encodeURIComponent(userId) +
+  "&formType=" + encodeURIComponent(chosenType)
+).catch(err => console.error("Logging failed", err));
+
 </script>
 </head>
 
