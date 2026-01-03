@@ -2,35 +2,64 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Accès formulaire</title>
-</head>
-<body style="text-align:center; margin-top:100px; font-family:Arial">
-<p id="status"></p>
+<title>Redirection automatique</title>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb8mCo9Qioze4kiZtIMLOLB23nVdL7v-UFJSO_ccZam__U0r22mWqU1E8dH4n7OgE4/exec";
 
-function go() {
+// Ordre des formulaires
+const forms = {
+  A: "https://forms.gle/f5SfhpjNyU2hNLTa6",
+  B: "https://forms.gle/Bggr2miD7K5LBFiM6",
+  C: "https://forms.gle/GQDMDCCJjFoJNL937",
+  D: "https://forms.gle/bQUzKVw4qmMAFjY68",
+  E: "https://forms.gle/bpWjeaE1uHdKBWBd9",
+  F: "https://forms.gle/y9tb4aF5cbknNLSSA"
+};
+
+const order = ["A","B","C","D","E","F"];
+
+function redirectAutomatically() {
+
+  // --- userId ---
   let userId = localStorage.getItem("userId");
   if (!userId) {
     userId = "U" + Math.random().toString(36).substr(2,9);
     localStorage.setItem("userId", userId);
   }
 
-  document.getElementById("status").innerText = "Redirection en cours...";
+  // --- étape ---
+  let step = localStorage.getItem("formStep");
+  step = step ? parseInt(step) : 0;
 
-  fetch(`${SCRIPT_URL}?userId=${userId}`)
-    .then(r => r.json())
-    .then(data => {
-      window.location.href = data.redirectURL + "?userId=" + userId;
-    })
-    .catch(() => {
-      document.getElementById("status").innerText =
-        "Erreur de connexion au serveur.";
-    });
+  if (step >= order.length) {
+    document.body.innerHTML =
+      "<h2>Vous avez déjà complété tous les formulaires.</h2>";
+    return;
+  }
+
+  const formType = order[step];
+  const redirectURL = forms[formType];
+
+  // --- comptage (fire & forget) ---
+  fetch(`${SCRIPT_URL}?userId=${userId}&formType=${formType}`)
+    .catch(() => {}); // aucune interruption même si erreur
+
+  // --- mémoriser étape suivante ---
+  localStorage.setItem("formStep", step + 1);
+
+  // --- redirection automatique ---
+  window.location.href = redirectURL + "?userId=" + userId;
 }
+
+// Auto-exécution
+window.onload = redirectAutomatically;
 </script>
 
+</head>
+
+<body style="text-align:center; font-family:Arial; margin-top:100px;">
+  <p>Redirection en cours…</p>
 </body>
 </html>
 
