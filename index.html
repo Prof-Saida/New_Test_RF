@@ -5,7 +5,7 @@
 <title>Form Redirect</title>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYl0jJq9QccQDaGq8E1KdGlEaBlOGCVNO4j6f7dzz2xOM9_NgIZB5CudtemjKvLdcS/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzq-Pi7Z9SOEnq5YloxpIywxHmhh2yQNEJsQ916yWANTphVT4Ct9_LShoAEJQl9Euew/exec";
 
 /* USER ID */
 let userId = localStorage.getItem("userId");
@@ -47,8 +47,10 @@ const params = new URLSearchParams({
   formType: chosenType
 });
 
-navigator.sendBeacon(
-  SCRIPT_URL + "?" + params.toString()
+  navigator.sendBeacon(
+  SCRIPT_URL +
+  "?formType=" + chosenType +
+  "&userId=" + userId
 );
 
 /* REDIRECT */
