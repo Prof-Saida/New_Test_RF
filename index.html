@@ -7,7 +7,7 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRKuFcBtLdX9wEp_jfwBJ5V6tmM5PDRU2E_jFT-bZoyxJwHzLqw7_uLPnhtam-WLCz/exec";
 
-function Redirect() {
+//function Redirect() {
   //const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
   // --- Générer ou récupérer un ID utilisateur ---
@@ -69,7 +69,7 @@ function Redirect() {
   return HtmlService.createHtmlOutput(
     "<html><head><meta name='viewport' content='width=device-width, initial-scale=1'>" +
     "<script>" +
-    "let uid = localStorage.getItem('userId');" +
+    "let uid = localStorage.getItem('Email');" +
     "if (!uid) {" +
     "  uid = 'U' + Math.random().toString(36).substr(2, 9);" +
     "  localStorage.setItem('Email', uid);" +
@@ -80,8 +80,8 @@ function Redirect() {
     "<p>Redirection en cours vers le formulaire " + chosenType + "...</p>" +
     "</body></html>"
   );
-}
-window.onload = Redirect();
+// }
+//window.onload = Redirect();
 </script>
 
 </head>
