@@ -7,53 +7,80 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRKuFcBtLdX9wEp_jfwBJ5V6tmM5PDRU2E_jFT-bZoyxJwHzLqw7_uLPnhtam-WLCz/exec";
 
-// Ordre des formulaires
-const forms = {
-  A: "https://forms.gle/f5SfhpjNyU2hNLTa6",
-  B: "https://forms.gle/Bggr2miD7K5LBFiM6",
-  C: "https://forms.gle/GQDMDCCJjFoJNL937",
-  D: "https://forms.gle/bQUzKVw4qmMAFjY68",
-  E: "https://forms.gle/bpWjeaE1uHdKBWBd9",
-  F: "https://forms.gle/y9tb4aF5cbknNLSSA"
-};
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-const order = ["A","B","C","D","E","F"];
+  // --- Générer ou récupérer un ID utilisateur ---
+  let userId = e.parameter.userId || "Unknown";
 
-function redirectAutomatically() {
-
-  // --- userId ---
-  let userId = localStorage.getItem("userId");
-  if (!userId) {
-    userId = "U" + Math.random().toString(36).substr(2,9);
-    localStorage.setItem("userId", userId);
+  // --- Vérifier le dernier formulaire global ---
+  const lastRow = sheet.getLastRow();
+  let lastType = "F"; // par défaut on commence par A
+  if (lastRow > 0) {
+    const lastValue = sheet.getRange(lastRow, 2).getValue(); // colonne B = type
+    if (["A", "B", "C", "D", "E", "F"].includes(lastValue)) {
+      lastType = lastValue;
+    }
   }
 
-  // --- étape ---
-  let step = localStorage.getItem("formStep");
-  step = step ? parseInt(step) : 0;
-
-  if (step >= order.length) {
-    document.body.innerHTML =
-      "<h2>Vous avez déjà complété tous les formulaires.</h2>";
-    return;
+  // --- Alterner globalement entre A, B, C, D, E, F ---
+  let chosenType;
+  switch (lastType) {
+    case "A":
+      chosenType = "B";
+      break;
+    case "B":
+      chosenType = "C";
+      break;
+    case "C":
+      chosenType = "D";
+      break;
+    case "D":
+      chosenType = "E";
+      break;
+    case "E":
+      chosenType = "F";
+      break;
+    default:
+      chosenType = "A";
   }
 
-  const formType = order[step];
-  const redirectURL = forms[formType];
+  // --- Liens des formulaires ---
+  const formA = "https://forms.gle/f5SfhpjNyU2hNLTa6";
+  const formB = "https://forms.gle/Bggr2miD7K5LBFiM6";
+  const formC = "https://forms.gle/GQDMDCCJjFoJNL937";
+  const formD = "https://forms.gle/bQUzKVw4qmMAFjY68";
+  const formE = "https://forms.gle/bpWjeaE1uHdKBWBd9";
+  const formF = "https://forms.gle/y9tb4aF5cbknNLSSA";
 
-  // --- comptage (fire & forget) ---
-  fetch(`${SCRIPT_URL}?userId=${userId}&formType=${formType}`)
-    .catch(() => {}); // aucune interruption même si erreur
+  let redirectURL;
+  if (chosenType === "A") redirectURL = formA;
+  else if (chosenType === "B") redirectURL = formB;
+  else if (chosenType === "C") redirectURL = formC;
+  else if (chosenType === "D") redirectURL = formD;
+  else if (chosenType === "E") redirectURL = formE;
+  else redirectURL = formF;
 
-  // --- mémoriser étape suivante ---
-  localStorage.setItem("formStep", step + 1);
+  // --- Enregistrer dans Google Sheet ---
+  sheet.appendRow([new Date(), chosenType, userId]);
 
-  // --- redirection automatique ---
-  window.location.href = redirectURL + "?userId=" + userId;
+  // --- Redirection avec stockage du userId ---
+  return HtmlService.createHtmlOutput(
+    "<html><head><meta name='viewport' content='width=device-width, initial-scale=1'>" +
+    "<script>" +
+    "let uid = localStorage.getItem('userId');" +
+    "if (!uid) {" +
+    "  uid = 'U' + Math.random().toString(36).substr(2, 9);" +
+    "  localStorage.setItem('userId', uid);" +
+    "}" +
+    "window.location='" + redirectURL + "?userId=' + uid;" +
+    "</script>" +
+    "</head><body style='font-family:Arial; text-align:center; padding:50px;'>" +
+    "<p>Redirection en cours vers le formulaire " + chosenType + "...</p>" +
+    "</body></html>"
+  );
 }
 
-// Auto-exécution
-window.onload = redirectAutomatically;
 </script>
 
 </head>
@@ -62,6 +89,5 @@ window.onload = redirectAutomatically;
   <p>Redirection en cours…</p>
 </body>
 </html>
-
 
 
