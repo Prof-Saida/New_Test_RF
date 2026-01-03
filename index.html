@@ -7,10 +7,11 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRKuFcBtLdX9wEp_jfwBJ5V6tmM5PDRU2E_jFT-bZoyxJwHzLqw7_uLPnhtam-WLCz/exec";
 
-function doGet(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+function Redirect() {
+  //const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
   // --- Générer ou récupérer un ID utilisateur ---
+  const email  = data["Adresse e-mail"] || data["Email"];
   let userId = e.parameter.userId || "Unknown";
 
   // --- Vérifier le dernier formulaire global ---
@@ -62,7 +63,7 @@ function doGet(e) {
   else redirectURL = formF;
 
   // --- Enregistrer dans Google Sheet ---
-  sheet.appendRow([new Date(), chosenType, userId]);
+  sheet.appendRow([new Date(), chosenType, Email]);
 
   // --- Redirection avec stockage du userId ---
   return HtmlService.createHtmlOutput(
@@ -71,16 +72,16 @@ function doGet(e) {
     "let uid = localStorage.getItem('userId');" +
     "if (!uid) {" +
     "  uid = 'U' + Math.random().toString(36).substr(2, 9);" +
-    "  localStorage.setItem('userId', uid);" +
+    "  localStorage.setItem('Email', uid);" +
     "}" +
-    "window.location='" + redirectURL + "?userId=' + uid;" +
+    "window.location='" + redirectURL + "?Email=' + uid;" +
     "</script>" +
     "</head><body style='font-family:Arial; text-align:center; padding:50px;'>" +
     "<p>Redirection en cours vers le formulaire " + chosenType + "...</p>" +
     "</body></html>"
   );
 }
-window.onload = doGet(e);
+window.onload = Redirect();
 </script>
 
 </head>
