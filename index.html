@@ -1,5 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Form Redirect</title>
+
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFx5khZO-I4jCX1nLJDB6c1Xzb2Lkz5UmtVBElcOai0S1FMMugUXPTp6FWcR4Fusxe/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYl0jJq9QccQDaGq8E1KdGlEaBlOGCVNO4j6f7dzz2xOM9_NgIZB5CudtemjKvLdcS/exec";
 
 /* USER ID */
 let userId = localStorage.getItem("userId");
@@ -48,3 +54,13 @@ navigator.sendBeacon(
 /* REDIRECT */
 window.location.href = forms[chosenType] + "?userId=" + userId;
 </script>
+
+</head>
+
+<body style="font-family:Arial; text-align:center; padding:50px;">
+  <p>Redirecting to form <strong id="t"></strong>…</p>
+  <script>
+    document.getElementById("t").innerText = chosenType;
+  </script>
+</body>
+</html>
