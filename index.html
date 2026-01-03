@@ -5,7 +5,7 @@
 <title>Auto redirect</title>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypuSbPNra-R9nsJ0q0y_TUHGYSOLfINWideLas0C0Yi4jcAx9UwZDL7mQx88XLaJdk/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypuSbPNra-R9nsJ0q0y_TUHGYSOLfINWideLas0C0Yi4jcAx9UwZDL7mQx88XLaJdk/exec";
 /* ===== CONFIG ===== */
 const FORMS = [
   { type: "A", url: "https://forms.gle/f5SfhpjNyU2hNLTa6" },
@@ -27,11 +27,12 @@ function redirect() {
 
   const form = FORMS[step];
 
-  // store next step
+  // save next step
   localStorage.setItem("step", step + 1);
 
-  // redirect
-  window.location.href = form.url + "?formType=" + form.type;
+  // redirect (formType passed)
+  window.location.href =
+    form.url + "?formType=" + form.type;
 }
 
 window.onload = redirect;
@@ -42,5 +43,3 @@ window.onload = redirect;
 <h3>Redirecting…</h3>
 </body>
 </html>
-
-
