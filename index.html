@@ -20,12 +20,12 @@ let lastType = localStorage.getItem("lastType");
 /* NEXT FORM */
 let chosenType;
 switch (lastType) {
-  case "A": chosenType = "B"; break;
+  /*case "A": chosenType = "B"; break;*/
   case "B": chosenType = "C"; break;
   case "C": chosenType = "D"; break;
   case "D": chosenType = "E"; break;
   case "E": chosenType = "F"; break;
-  default:  chosenType = "A";
+  default:  chosenType = "B";
 }
 
 /* SAVE STATE */
@@ -33,7 +33,7 @@ localStorage.setItem("lastType", chosenType);
 
 /* FORMS */
 const forms = {
-  A: "https://forms.gle/nPFFCdWgrkyFvN6G7",
+  /*A: "https://forms.gle/nPFFCdWgrkyFvN6G7",*/
   B: "https://forms.gle/G4aZv9CXngK3wqRL9",
   C: "https://forms.gle/P7LTWNkgaG7aDYWh6",
   D: "https://forms.gle/QnDffyNqQwn8iAux5",
