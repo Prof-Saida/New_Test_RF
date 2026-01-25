@@ -18,15 +18,27 @@ if (!userId) {
 let lastType = localStorage.getItem("lastType");
 
 /* NEXT FORM */
-let chosenType;
+/*let chosenType;
 switch (lastType) {
   /*case "A": chosenType = "B"; break;*/
-  case "B": chosenType = "C"; break;
+  /*case "B": chosenType = "C"; break;
   case "C": chosenType = "D"; break;
   case "D": chosenType = "E"; break;
   case "E": chosenType = "F"; break;
   default:  chosenType = "C";
-}
+} */
+
+  /*New one*/
+
+  switch (lastType) {
+  case "B": chosenType = "C"; break;
+  case "C": chosenType = "D"; break;
+  case "D": chosenType = "E"; break;
+  case "E": chosenType = "F"; break;
+  default:
+    const options = ["C", "D", "E", "F"];
+    chosenType = options[Math.floor(Math.random() * options.length)];
+}  
 
 /* SAVE STATE */
 localStorage.setItem("lastType", chosenType);
