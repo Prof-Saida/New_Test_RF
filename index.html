@@ -35,11 +35,11 @@ switch (lastType) {
   /*case "C": chosenType = "D"; break;*/
  /* case "D": chosenType = "E"; break;*/
   /*case "D": chosenType = "F"; break;*/
-  case "B": chosenType = "E"; break;
-  default:
+    case "B": chosenType = "E"; break;
+    default:
     /*const options = ["D", "F"];*/
-    const options = ["B", "E"];
-    chosenType = options[Math.floor(Math.random() * options.length)];
+      const options = ["B", "E"];
+      chosenType = options[Math.floor(Math.random() * options.length)];
 }  
 
 /* SAVE STATE */
@@ -49,10 +49,10 @@ localStorage.setItem("lastType", chosenType);
 const forms = {
   /*A: "https://forms.gle/nPFFCdWgrkyFvN6G7",*/
   B: "https://forms.gle/G4aZv9CXngK3wqRL9",
-  C: "https://forms.gle/P7LTWNkgaG7aDYWh6",
-  D: "https://forms.gle/QnDffyNqQwn8iAux5",
+  /*C: "https://forms.gle/P7LTWNkgaG7aDYWh6",*/
+  /*D: "https://forms.gle/QnDffyNqQwn8iAux5",*/
   E: "https://forms.gle/mqFziXFAzV2gEhfD7",
-  F: "https://forms.gle/YAVqcAoqn8kCPC7VA"
+  /*F: "https://forms.gle/YAVqcAoqn8kCPC7VA"*/
 };
 
 /* 🔥 RELIABLE LOGGING WITH FETCH */
