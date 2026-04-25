@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Form Redirect</title>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjcvPF-rG52p9COp80CV6cbSRsTGSnHNtXYUhD1LdXcZqfnLN2GF2huheBGALFOEUE1g/exec";
+
+/* USER ID */
+let userId = localStorage.getItem("userId");
+if (!userId) {
+  userId = "U" + Math.random().toString(36).substr(2, 9);
+  localStorage.setItem("userId", userId);
+}
+
+/* LAST TYPE *////
+let lastType = localStorage.getItem("lastType");
+
+/* NEXT FORM */
+/*let chosenType;
+switch (lastType) {
+  /*case "A": chosenType = "B"; break;*/
+  /*case "B": chosenType = "C"; break;
+  case "C": chosenType = "D"; break;
+  case "D": chosenType = "E"; break;
+  case "E": chosenType = "F"; break;
+  default:  chosenType = "C";
+} */
+
+  /*New one*/
+
+  switch (lastType) {
+  /*case "B": chosenType = "C"; break;*/
+  /*case "C": chosenType = "D"; break;*/
+ /* case "D": chosenType = "E"; break;*/
+  /*case "D": chosenType = "F"; break;*/
+  case "B": chosenType = "E"; break;
+  default:
+    /*const options = ["D", "F"];*/
+    const options = ["B", "E"];
+    chosenType = options[Math.floor(Math.random() * options.length)];
+}  
+
+/* SAVE STATE */
+localStorage.setItem("lastType", chosenType);
+
+/* FORMS */
+const forms = {
+  /*A: "https://forms.gle/nPFFCdWgrkyFvN6G7",*/
+  B: "https://forms.gle/G4aZv9CXngK3wqRL9",
+  C: "https://forms.gle/P7LTWNkgaG7aDYWh6",
+  D: "https://forms.gle/QnDffyNqQwn8iAux5",
+  E: "https://forms.gle/mqFziXFAzV2gEhfD7",
+  F: "https://forms.gle/YAVqcAoqn8kCPC7VA"
+};
+
+/* 🔥 RELIABLE LOGGING WITH FETCH */
+fetch(
+  SCRIPT_URL +
+    "?formType=" + encodeURIComponent(chosenType) +
+    "&userId=" + encodeURIComponent(userId),
+  {
+    method: "GET",
+    keepalive: true
+  }
+);
+
+/* REDIRECT */
+window.location.href = forms[chosenType] + "?userId=" + userId;
+</script>
+
+</head>
+
+<body style="font-family:Arial; text-align:center; padding:50px;">
+  <p>Redirecting to form <strong id="t"></strong>…</p>
+  <script>
+    document.getElementById("t").innerText = chosenType;
+  </script>
+</body>
+</html>
