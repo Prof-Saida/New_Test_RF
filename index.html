@@ -34,9 +34,12 @@ switch (lastType) {
   /*case "B": chosenType = "C"; break;*/
   /*case "C": chosenType = "D"; break;*/
  /* case "D": chosenType = "E"; break;*/
-  case "D": chosenType = "F"; break;
+  /*case "D": chosenType = "F"; break;*/
+  case "B": chosenType = "E"; break;
+  case "E": chosenType = "B"; break;
   default:
-    const options = ["D", "F"];
+    /*const options = ["D", "F"];*/
+    const options = ["B", "E"];
     chosenType = options[Math.floor(Math.random() * options.length)];
 }  
 
